@@ -83,4 +83,4 @@ setInterval(() => {
 		if (err) throw err;
 	});
 }, 30000);
-// Save every 60 seconds
+// Save every 30 seconds
