@@ -1,6 +1,10 @@
 # rung9k
 discord bot that do r9k things
 
+- monitors specified channel
+- deletes duplicate messages
+- mutes user (from channel) for 2 seconds, quadrupling each time they send a duplicate message
+
 ## installing
 - clone the repo and open a terminal inside the extracted folder
 - run `npm install`
