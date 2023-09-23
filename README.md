@@ -5,6 +5,8 @@ discord bot that do r9k things (working 2023 no glitches)
 - deletes duplicate messages
 - mutes user (from channel) for 2 seconds, quadrupling each time they send a duplicate message
 
+## [what's r9k?](https://blog.xkcd.com/2008/01/14/robot9000-and-xkcd-signal-attacking-noise-in-chat/)
+
 ## installing
 - clone the repo and open a terminal inside the extracted folder
 - run `npm install`
