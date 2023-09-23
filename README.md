@@ -20,3 +20,4 @@ you can ignore the ENO errors, they should be fixed when the bot starts gatherin
 - use commands to designate channel not config.json
 - more sex
 - use discord timeouts instead of channel permissions (if we can get granular)
+- levenshtein distance support
