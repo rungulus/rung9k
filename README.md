@@ -17,7 +17,7 @@ discord bot that do r9k things (working 2023 no glitches)
 you can ignore the ENO errors, they should be fixed when the bot starts gathering data
 
 ### future
-- ignore non-alphanumeric characters in hashing, and delete non-ascii posts
+- delete non-ascii posts
 - mutliple channel support
 - use commands to designate channel not config.json
 - more sex
