@@ -6,54 +6,56 @@ const config = require('./config.json');
 const client = new Client();
 let messageHashes = {};
 
-// Load existing data from file, if it exists
-try {
-	const data = fs.readFileSync('data.json', 'utf8');
-	const parsedData = JSON.parse(data);
-	messageHashes = parsedData.hashes || {};
-}
-catch (err) {
-	console.error('Error reading file:', err);
+function calculateDelay(count) {
+	return Math.min(6 * 60 * 60 * 1000, 2000 * Math.pow(4, count));
 }
 
 client.once('ready', () => {
 	console.log('Bot is online');
+
+	// Load existing data from file, if it exists
+	if (fs.existsSync('data.json')) {
+		try {
+			const data = fs.readFileSync('data.json', 'utf8');
+			const parsedData = JSON.parse(data);
+			messageHashes = parsedData.hashes || {};
+		}
+		catch (err) {
+			console.error('Error reading file:', err);
+		}
+	}
 });
 
 client.on('message', async (message) => {
 	if (message.author.bot || message.channel.id !== config.channelID) return;
 
-	const hash = crypto.createHash('md5').update(message.content).digest('hex');
-	const user = message.author.id;
+	const contentWithoutSpecialChars = message.content.replace(/[^a-zA-Z0-9]/g, '');
+	const hash = crypto.createHash('md5').update(contentWithoutSpecialChars).digest('hex');
 
-	if (messageHashes[hash] && messageHashes[hash].author === user) {
-		const originalMessage = messageHashes[hash];
-		const count = originalMessage.count || 0;
-		const delay = 2000 * Math.pow(2, count);
+	if (messageHashes[hash]) {
+		const count = messageHashes[hash].count || 0;
+		const delay = calculateDelay(count);
 
-		const userPermissions = message.channel.permissionsFor(originalMessage.author);
+		const userPermissions = message.channel.permissionsFor(message.author);
 
 		if (userPermissions && userPermissions.has('SEND_MESSAGES')) {
-			await message.channel.updateOverwrite(originalMessage.author, {
+			await message.channel.updateOverwrite(message.author, {
 				SEND_MESSAGES: false,
 			});
 			setTimeout(async () => {
-				await message.channel.updateOverwrite(originalMessage.author, {
+				await message.channel.updateOverwrite(message.author, {
 					SEND_MESSAGES: true,
 				});
 			}, delay);
 		}
 
 		const deletedContent = message.content;
-		// Store the content of the deleted message
-
 		message.delete();
 
 		try {
-			const userToDM = await client.users.fetch(originalMessage.author);
+			const userToDM = await client.users.fetch(message.author.id);
 			const countdownTime = new Date(Date.now() + delay);
 			const unixTimestamp = Math.floor(countdownTime.getTime() / 1000);
-			// Convert to seconds
 			await userToDM.send(`Sending "${deletedContent}" is very unwise. You can post again <t:${unixTimestamp}:R>.`);
 		}
 		catch (error) {
@@ -61,26 +63,29 @@ client.on('message', async (message) => {
 		}
 
 		messageHashes[hash].count = count + 1;
-		messageHashes[hash].expireTimestamp = Math.floor((Date.now() + delay) / 1000);
-		// Convert to seconds
+		messageHashes[hash].expireTimestamp = Date.now() + delay;
 	}
 	else {
 		messageHashes[hash] = {
-			author: user,
-			count: 0,
+			count: 1,
+			// Initialize count to 1 for new entries
 		};
 
 		console.log(`Message "${message.content}" hashed to ${hash}`);
 	}
 });
 
-
 client.login(config.token);
 
-// Save message hashes to file periodically
 setInterval(() => {
+	const now = Date.now();
+	for (const hash in messageHashes) {
+		if (messageHashes[hash].expireTimestamp && messageHashes[hash].expireTimestamp <= now) {
+			delete messageHashes[hash];
+		}
+	}
+
 	fs.writeFile('data.json', JSON.stringify({ hashes: messageHashes }), (err) => {
 		if (err) throw err;
 	});
 }, 30000);
-// Save every 30 seconds
