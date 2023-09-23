@@ -1,5 +1,5 @@
 # rung9k
-discord bot that do r9k things
+discord bot that do r9k things (working 2023 no glitches)
 
 - monitors specified channel
 - deletes duplicate messages
