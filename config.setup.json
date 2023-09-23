@@ -1,0 +1,6 @@
+{
+    "token": "bot-token-goes-here",
+    "channelID": "channel-id-goes-here",
+    "intents":32767
+  }
+  
