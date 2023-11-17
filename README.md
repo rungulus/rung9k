@@ -5,6 +5,7 @@ discord bot that do r9k things (working 2023 no glitches)
 - deletes duplicate messages
 - mutes user (from channel) for 2 seconds, quadrupling each time they send a duplicate message
 - mutes decay after 6 hours
+- monitors posts for specific reactions, and if a user gets over 5 it bans them (from the channel only!)
 
 ### [click here for an r9k explainer](https://blog.xkcd.com/2008/01/14/robot9000-and-xkcd-signal-attacking-noise-in-chat/)
 
