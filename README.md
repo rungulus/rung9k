@@ -7,6 +7,8 @@ discord bot that do r9k things (working 2023 no glitches)
 - mutes decay after 6 hours
 - monitors posts for specific reactions, and if a user gets over 5 it bans them (from the channel only!)
 
+### you should probably remove the bot's read permissions from other channels for now, i forgot to add checking so if they get 5 reactions in any channel it will ban them from that 
+
 ### [click here for an r9k explainer](https://blog.xkcd.com/2008/01/14/robot9000-and-xkcd-signal-attacking-noise-in-chat/)
 
 ## installing
