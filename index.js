@@ -89,7 +89,7 @@ client.on('message', async (message) => {
 
 client.on('messageReactionAdd', async (reaction, user) => {
 	const emojiToCheck = '➖'; // Replace with your emoji to check
-    const requiredReactions = 5;
+    const requiredReactions = 10;
 
     try {
         // Fetch the message associated with the reaction
