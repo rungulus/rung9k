@@ -5,7 +5,7 @@ discord bot that do r9k things (working 2023 no glitches)
 - deletes duplicate messages
 - mutes user (from channel) for 2 seconds, quadrupling each time they send a duplicate message
 - mutes decay after 6 hours
-- monitors posts for specific reactions, and if a user gets over 5 it bans them (from the channel only!)
+- monitors posts for specific reactions, and if a user gets over 10 it bans them (from the channel only!)
 
 ### you should probably remove the bot's read permissions from other channels for now, i forgot to add checking so if they get 5 reactions in any channel it will ban them from that 
 
